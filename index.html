@@ -514,8 +514,8 @@
 
                     if (keys[keyset.up]) {
                         moving = true;
-                        const newX = this.x + Math.cos(this.angle) * this.speed;
-                        const newY = this.y + Math.sin(this.angle) * this.speed;
+                        const newX = this.x + Math.sin(this.angle) * this.speed;
+                        const newY = this.y - Math.cos(this.angle) * this.speed;
                         if (!this.collidesWithWalls(newX, newY) && !this.collidesWithTank(newX, newY)) {
                             this.x = newX;
                             this.y = newY;
@@ -523,8 +523,8 @@
                     }
                     if (keys[keyset.down]) {
                         moving = true;
-                        const newX = this.x - Math.cos(this.angle) * this.speed * 0.7;
-                        const newY = this.y - Math.sin(this.angle) * this.speed * 0.7;
+                        const newX = this.x - Math.sin(this.angle) * this.speed * 0.7;
+                        const newY = this.y + Math.cos(this.angle) * this.speed * 0.7;
                         if (!this.collidesWithWalls(newX, newY) && !this.collidesWithTank(newX, newY)) {
                             this.x = newX;
                             this.y = newY;
@@ -540,8 +540,8 @@
                     // Trail
                     if (moving) {
                         this.trail.push({
-                            x: this.x - Math.cos(this.angle) * TANK_SIZE / 2,
-                            y: this.y - Math.sin(this.angle) * TANK_SIZE / 2,
+                            x: this.x - Math.sin(this.angle) * TANK_SIZE / 2,
+                            y: this.y + Math.cos(this.angle) * TANK_SIZE / 2,
                             life: 12,
                         });
                     }
@@ -588,13 +588,13 @@
                 }
 
                 shoot() {
-                    const bx = this.x + Math.cos(this.angle) * (TANK_SIZE / 2 + 5);
-                    const by = this.y + Math.sin(this.angle) * (TANK_SIZE / 2 + 5);
+                    const bx = this.x + Math.sin(this.angle) * (TANK_SIZE / 2 + 5);
+                    const by = this.y - Math.cos(this.angle) * (TANK_SIZE / 2 + 5);
                     bullets.push({
                         x: bx,
                         y: by,
-                        vx: Math.cos(this.angle) * BULLET_SPEED,
-                        vy: Math.sin(this.angle) * BULLET_SPEED,
+                        vx: Math.sin(this.angle) * BULLET_SPEED,
+                        vy: -Math.cos(this.angle) * BULLET_SPEED,
                         owner: this.playerNum,
                         life: 120,
                     });
@@ -754,8 +754,8 @@
             let mines = [];
 
             function initTanks() {
-                tank1 = new Tank(CELL_W * 3, H / 2, 0, 'rgb(0,150,255)', 1);
-                tank2 = new Tank(W - CELL_W * 3, H / 2, Math.PI, 'rgb(255,80,50)', 2);
+                tank1 = new Tank(CELL_W * 3, H / 2, Math.PI / 2, 'rgb(0,150,255)', 1);
+                tank2 = new Tank(W - CELL_W * 3, H / 2, -Math.PI / 2, 'rgb(255,80,50)', 2);
             }
 
             // ==================== COLLISION DETECTION ====================
@@ -1241,8 +1241,8 @@
                         [tank2, '#ff6347']
                     ].forEach(([t, color]) => {
                         if (!t.alive) return;
-                        const cx = t.x + Math.cos(t.angle) * 80;
-                        const cy = t.y + Math.sin(t.angle) * 80;
+                        const cx = t.x + Math.sin(t.angle) * 80;
+                        const cy = t.y - Math.cos(t.angle) * 80;
                         ctx.strokeStyle = color.replace('rgb', 'rgba').replace(')', ',0.3)');
                         ctx.lineWidth = 1;
                         ctx.setLineDash([4, 8]);
